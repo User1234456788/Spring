@@ -36,7 +36,7 @@ public class BasketService {
 	public Basket updateBasket(Long id, BasketDTO basketDetails) {
 		Basket basket = basketRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Basket not found"));
-		basket.setItem(basketDetails.getItem());
+		basket.setItems(basketDetails.getItem());
 		return basketRepository.save(basket);
 	}
 
