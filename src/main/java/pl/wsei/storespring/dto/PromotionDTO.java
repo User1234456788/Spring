@@ -1,28 +1,31 @@
 package pl.wsei.storespring.dto;
 
-import pl.wsei.storespring.model.Item;
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import pl.wsei.storespring.model.Promotion;
 
-import java.util.List;
 
 public class PromotionDTO {
 
     private long id;
 
+    private String descryption;
+
+    private String name;
+
+    @Column(name = "promotionPercentage")
+    @Min(value = 0, message = "promotion must be at least 0")
+    @Max(value = 100, message = "promotion must not exceed 100")
     private int promotion;
-
-    private boolean isActive;
-
-    private List<Item> promotedItems;
-
 
 
     public static PromotionDTO fromEntity(Promotion promotion) {
         PromotionDTO promotionDTO = new PromotionDTO();
         promotionDTO.id = promotion.getId();
         promotionDTO.promotion = promotion.getPromotion();
-        promotionDTO.isActive = promotion.getActive();
-        promotionDTO.promotedItems = promotion.getPromotedItems();
+        promotionDTO.descryption = promotion.getDescryption();
+        promotionDTO.name = promotion.getName();
         return promotionDTO;
     }
 
@@ -30,8 +33,8 @@ public class PromotionDTO {
         Promotion promotion = new Promotion();
         promotion.setId(promotionDTO.id);
         promotion.setPromotion(promotionDTO.promotion);
-        promotion.setActive(promotion.getActive());
-        promotion.setPromotedItems(promotion.getPromotedItems());
+        promotion.setName(promotionDTO.getName());
+        promotion.setDescryption(promotionDTO.getDescryption());
         return promotion;
     }
 
@@ -43,19 +46,29 @@ public class PromotionDTO {
         this.id = id;
     }
 
+    public String getDescryption() {
+        return descryption;
+    }
+
+    public void setDescryption(String descryption) {
+        this.descryption = descryption;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Min(value = 0, message = "promotion must be at least 0")
+    @Max(value = 100, message = "promotion must not exceed 100")
     public int getPromotion() {
         return promotion;
     }
 
-    public void setPromotion(int promotion) {
+    public void setPromotion(@Min(value = 0, message = "promotion must be at least 0") @Max(value = 100, message = "promotion must not exceed 100") int promotion) {
         this.promotion = promotion;
-    }
-
-    public List<Item> getPromotedItems() {
-        return promotedItems;
-    }
-
-    public void setPromotedItems(List<Item> promotedItems) {
-        this.promotedItems = promotedItems;
     }
 }

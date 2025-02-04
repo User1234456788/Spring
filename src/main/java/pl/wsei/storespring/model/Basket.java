@@ -1,6 +1,7 @@
 package pl.wsei.storespring.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 import java.util.List;
 
@@ -12,13 +13,12 @@ public class Basket {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@ManyToMany
-	@JoinTable(
-			name = "basket_items",
-			joinColumns = @JoinColumn(name = "basket_id"),
-			inverseJoinColumns = @JoinColumn(name = "item_id")
-	)
+	@OneToMany()
+	@JoinColumn(name = "fk_items")
 	List<Item> items;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	private Promotion promotion;
 
 	public long getId() {
 		return id;
@@ -34,5 +34,13 @@ public class Basket {
 
 	public void setItems(List<Item> item) {
 		this.items = item;
+	}
+
+	public Promotion getPromotion() {
+		return promotion;
+	}
+
+	public void setPromotion(Promotion promotion) {
+		this.promotion = promotion;
 	}
 }

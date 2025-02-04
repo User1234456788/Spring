@@ -52,6 +52,7 @@ public class BasketController {
 		return ResponseEntity.ok(updatedBasket);
 	}
 
+
 	@Operation(summary = "Delete a basket")
 	@DeleteMapping("/basket/{id}")
 	public ResponseEntity<Void> deleteBasket(@PathVariable Long id) {

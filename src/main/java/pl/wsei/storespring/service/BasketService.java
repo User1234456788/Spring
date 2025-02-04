@@ -6,6 +6,7 @@ import pl.wsei.storespring.dto.BasketDTO;
 import pl.wsei.storespring.exception.ResourceNotFoundException;
 import pl.wsei.storespring.model.Basket;
 import pl.wsei.storespring.model.Item;
+import pl.wsei.storespring.model.Promotion;
 import pl.wsei.storespring.repository.BasketRepository;
 
 import java.math.BigDecimal;
@@ -46,13 +47,22 @@ public class BasketService {
 		Basket basket = basketRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Basket not found"));
 		List<Item> items = basket.getItems();
-		BigDecimal price = BigDecimal.ZERO;
 
-		for(int i=0;i < items.size();i++){
-			price = price.add(items.get(i).getPrice());
+		Promotion promotion = basket.getPromotion();
+
+		if(promotion != null){
+			float promo = promotion.getPromotion();
+			BigDecimal allItemsprice = BigDecimal.ZERO;
+			for(int i=0;i < items.size();i++){
+				allItemsprice = allItemsprice.add(items.get(i).getPrice());
+			}
+
+			return allItemsprice.multiply(BigDecimal.valueOf((100-promo)/100));
 		}
-		return price;
+		return
+
 	}
+
 
 	public void deleteBasket(Long id) {
 		Basket basket = basketRepository.findById(id)

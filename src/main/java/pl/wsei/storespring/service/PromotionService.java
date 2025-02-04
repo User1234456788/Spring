@@ -40,10 +40,4 @@ public class PromotionService {
         promotionRepository.delete(promo);
     }
 
-    public void activatePromotion(Long id){
-        Promotion promo = promotionRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Promotion not found"));
-        promo.setActive(true);
-    }
-
 }
