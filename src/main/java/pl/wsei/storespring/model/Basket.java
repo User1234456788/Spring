@@ -12,8 +12,12 @@ public class Basket {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@Column(name = "items")
+	@ManyToMany
+	@JoinTable(
+			name = "basket_items",
+			joinColumns = @JoinColumn(name = "basket_id"),
+			inverseJoinColumns = @JoinColumn(name = "item_id")
+	)
 	List<Item> items;
 
 	public long getId() {

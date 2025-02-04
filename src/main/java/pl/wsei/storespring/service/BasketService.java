@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import pl.wsei.storespring.dto.BasketDTO;
 import pl.wsei.storespring.exception.ResourceNotFoundException;
 import pl.wsei.storespring.model.Basket;
+import pl.wsei.storespring.model.Item;
 import pl.wsei.storespring.repository.BasketRepository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -38,6 +40,18 @@ public class BasketService {
 				.orElseThrow(() -> new ResourceNotFoundException("Basket not found"));
 		basket.setItems(basketDetails.getItem());
 		return basketRepository.save(basket);
+	}
+
+	public BigDecimal getBasketPrice(Long id){
+		Basket basket = basketRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Basket not found"));
+		List<Item> items = basket.getItems();
+		BigDecimal price = BigDecimal.ZERO;
+
+		for(int i=0;i < items.size();i++){
+			price = price.add(items.get(i).getPrice());
+		}
+		return price;
 	}
 
 	public void deleteBasket(Long id) {

@@ -9,6 +9,7 @@ import pl.wsei.storespring.dto.BasketDTO;
 import pl.wsei.storespring.model.Basket;
 import pl.wsei.storespring.service.BasketService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Tag(name = "Basket", description = "Basket management APIs")
@@ -56,5 +57,12 @@ public class BasketController {
 	public ResponseEntity<Void> deleteBasket(@PathVariable Long id) {
 		basketService.deleteBasket(id);
 		return ResponseEntity.noContent().build();
+	}
+
+	@Operation(summary = "count Basket price")
+	@GetMapping("/basket/{id}/price")
+	public ResponseEntity<BigDecimal> basketPrice(@PathVariable Long id){
+		BigDecimal basketprice = basketService.getBasketPrice(id);
+		return ResponseEntity.ok(basketprice);
 	}
 }
