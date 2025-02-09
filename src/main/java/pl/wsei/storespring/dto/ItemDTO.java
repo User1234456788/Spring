@@ -1,5 +1,6 @@
 package pl.wsei.storespring.dto;
 
+import pl.wsei.storespring.model.Basket;
 import pl.wsei.storespring.model.Item;
 
 import java.math.BigDecimal;

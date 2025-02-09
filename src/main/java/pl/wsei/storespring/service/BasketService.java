@@ -43,6 +43,14 @@ public class BasketService {
 		return basketRepository.save(basket);
 	}
 
+	private BigDecimal cauntBasketPrice(List<Item> items){
+		BigDecimal allItemsprice = BigDecimal.ZERO;
+		for(int i=0;i < items.size();i++){
+			allItemsprice = allItemsprice.add(items.get(i).getPrice());
+		}
+		return allItemsprice;
+	}
+
 	public BigDecimal getBasketPrice(Long id){
 		Basket basket = basketRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Basket not found"));
@@ -50,16 +58,17 @@ public class BasketService {
 
 		Promotion promotion = basket.getPromotion();
 
-		if(promotion != null){
-			float promo = promotion.getPromotion();
-			BigDecimal allItemsprice = BigDecimal.ZERO;
-			for(int i=0;i < items.size();i++){
-				allItemsprice = allItemsprice.add(items.get(i).getPrice());
-			}
+		float promo = promotion.getPromotion();
 
-			return allItemsprice.multiply(BigDecimal.valueOf((100-promo)/100));
+		//all items price with no promotion
+		BigDecimal basketPrice = cauntBasketPrice(items);
+
+
+		if(promotion != null){
+
+			return basketPrice.multiply(BigDecimal.valueOf((100-promo)/100));
 		}
-		return
+		return basketPrice;
 
 	}
 

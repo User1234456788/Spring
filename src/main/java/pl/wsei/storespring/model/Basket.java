@@ -13,11 +13,12 @@ public class Basket {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@OneToMany()
-	@JoinColumn(name = "fk_items")
+	@OneToMany(cascade = CascadeType.ALL)
+	@Column(name = "FK_Item")
 	List<Item> items;
 
 	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "promotion_id")
 	private Promotion promotion;
 
 	public long getId() {

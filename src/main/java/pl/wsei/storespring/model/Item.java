@@ -1,11 +1,6 @@
 package pl.wsei.storespring.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 
 import java.math.BigDecimal;
@@ -61,4 +56,5 @@ public class Item {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
 }
